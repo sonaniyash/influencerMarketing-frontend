@@ -1,0 +1,107 @@
+<section>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <div class="input-container">
+        <img src="assets/search.svg" class="search-image" />
+        <input
+          type="text"
+          class="input-text"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+          (input)="searchOptions()"
+        />
+      </div>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onOptionSelected($event)"
+        [displayWith]="displayProperty"
+        class="dropdown-item"
+      >
+        <mat-option *ngFor="let option of options" [value]="option">
+          <div class="user-full-container">
+            <div class="user-details-container">
+              <img class="user-image" src="{{ option.picture }}" />
+              <div>
+                <p class="user-name">@{{ option.username }}</p>
+                <p class="name">{{ option.fullname }}</p>
+              </div>
+            </div>
+            <p class="user-followers">{{ transformValue(option.followers) }}</p>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <div class="main-container" *ngIf="userDetails.fullname">
+    <div class="profile-image-details-container">
+      <div class="profile-image-container">
+        <img
+          src="{{userDetails.picture}}"
+          alt="image"
+          class="user-image"
+        />
+      </div>
+      <div class="profile-details-container">
+        <p class="profile-username">
+          {{ userDetails.username }}
+          <img
+            *ngIf="userDetails.is_verified"
+            class="blue-tick-image"
+            src="assets/blue-tick.png"
+          />
+        </p>
+        <div class="profile-follow-following-post">
+          <p class="profile-post"><span>0</span> post</p>
+          <p class="profile-followers">
+            <span>{{ transformValue(userDetails.followers) }}</span> follows
+          </p>
+          <p class="profile-following"><span>0</span> following</p>
+        </div>
+        <p class="profile-user-name">{{ userDetails.fullname }}</p>
+        <!-- <p class="profile-description">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
+          sunt, suscipit cum dicta aperiam adipisci minus hic aliquid, tempora
+          aut esse ipsum corporis consectetur! Aut veniam pariatur sit illum
+          corrupti?
+        </p>
+        <a class="profile-link" href="www.google.com">Google</a> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- <mat-grid-list cols="3" rowHeight="2:1">
+  <mat-grid-tile *ngFor="let post of posts">{{post.display_url}}</mat-grid-tile>
+</mat-grid-list> -->
+  <div class="main-container">
+    <div class="grid-container">
+      <div class="content-column" *ngFor="let post of posts">
+        <div class="image-text-container">
+          <img
+            src="{{ post.display_url }}"
+            class="main-image"
+            alt="Image"
+            crossorigin="anonymous"
+          />
+          <div class="text-container">
+            <p class="like-text">
+              <img class="heart-image" src="assets/heart.png" />
+              {{ transformValue(post.like_count) }}
+            </p>
+            <p class="like-text">
+              <img class="comment-image" src="assets/coment.svg/" />
+              {{ transformValue(post.comment_count) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ngx-spinner
+  bdColor="rgba(51, 51, 51, 0.8)"
+  size="default"
+  type="ball-spin-clockwise"
+>
+  <div class="loader">Loading...</div>
+</ngx-spinner>
